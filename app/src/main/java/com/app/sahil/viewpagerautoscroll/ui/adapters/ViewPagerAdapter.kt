@@ -3,17 +3,19 @@ package com.app.atsz7.viewpagerautoscroll.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.viewpager.widget.PagerAdapter
 import com.app.atsz7.viewpagerautoscroll.R
+import com.app.atsz7.viewpagerautoscroll.data.model.Data
+import com.app.atsz7.viewpagerautoscroll.data.model.SlideData
 import kotlinx.android.synthetic.main.item_images_list.view.*
 
 /**
- * The [ViewPagerAdapter] class is used as adapter of "images"
+ * The [ViewPagerAdapter] class is used as adapter of "slide text"
  * view pager.
  */
 
-class ViewPagerAdapter(private val images: List<Int>) : PagerAdapter() {
+class ViewPagerAdapter() : PagerAdapter() {
+    private var users= mutableListOf<Data>()
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
@@ -22,9 +24,7 @@ class ViewPagerAdapter(private val images: List<Int>) : PagerAdapter() {
         )
 
         with(view) {
-            imageView.setImageDrawable(AppCompatResources.getDrawable(
-                context, images[position]
-            ))
+            tvText.text = users?.get(position)?.text
         }
 
         container.addView(view)
@@ -35,9 +35,13 @@ class ViewPagerAdapter(private val images: List<Int>) : PagerAdapter() {
         return view == `object`
     }
 
-    override fun getCount() = images.size
+    override fun getCount(): Int = users?.size!!
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
+    }
+
+    fun addData(data: List<Data>) {
+        data?.let { users?.addAll(it) }
     }
 }
